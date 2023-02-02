@@ -93,7 +93,8 @@ export const getAllDocumentAndSendResponse = async (
     //remove empty fields
     fields = fields.filter((field: any) => field);
     //remove duplicates
-    fields = new Set(fields).values();
+    //@ts-ignore
+    fields = [...new Set(fields)];
 
     //for search in fields
     let searchQuery: any = [];
