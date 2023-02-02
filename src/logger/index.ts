@@ -24,6 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export const addMongoDBTransport = (
   dbUrl: string,
+  logger: winston.Logger,
   collection = 'error_log'
 ) => {
   logger.add(
