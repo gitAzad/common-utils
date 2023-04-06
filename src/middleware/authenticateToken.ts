@@ -4,28 +4,31 @@ import jwt from 'jsonwebtoken';
 import IRequest from '../interface/IRequest';
 import logger from '../logger';
 
-export const authenticateToken = async (
-  req: IRequest,
-  res: Response,
-  next: NextFunction,
-  userModel: mongoose.Model<mongoose.Document>,
-  jwtSecret: string
-) => {
-  try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+export const authenticateToken = (
+  jwtSecret: string,
+  userCollectionName = 'users'
+) => [
+  async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      const authHeader = req.headers['authorization'];
+      const token = authHeader && authHeader.split(' ')[1];
 
-    if (token == null) return res.sendStatus(401);
+      if (token == null) return res.sendStatus(401);
 
-    const tokenData: any = jwt.verify(token, jwtSecret);
+      const tokenData: any = jwt.verify(token, jwtSecret);
 
-    const user = await userModel.findById(tokenData?._id);
-    if (!user) return res.sendStatus(401);
-    req.user = user;
-    req.userId = user?._id;
-    next();
-  } catch (error: any) {
-    logger.error(error.message);
-    return res.sendStatus(401);
-  }
-};
+      //find user by id without mongoose model
+      let user = await mongoose.connection.db
+        .collection(userCollectionName)
+        .findOne({ _id: new mongoose.Types.ObjectId(tokenData.id) });
+
+      if (!user) return res.sendStatus(401);
+      req.user = user;
+      req.userId = user?._id?.toString();
+      next();
+    } catch (error: any) {
+      logger.error(error.message);
+      return res.sendStatus(401);
+    }
+  },
+];
