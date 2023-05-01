@@ -1,19 +1,40 @@
 {
   "name": "@mdazad/common-utils",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Md Azad",
   "license": "MIT",
   "description": "Common utils for nodejs",
   "keywords": [
+    "mdazad",
+    "mdazad.com",
+    "mdazad-common-utils",
+    "Md Azad",
     "common",
     "utils",
-    "nodejs"
+    "nodejs",
+    "typescript",
+    "express",
+    "express-validator",
+    "mongoose",
+    "winston",
+    "winston-mongodb",
+    "auth",
+    "crud",
+    "common-utils",
+    "common-utils-nodejs",
+    "common-utils-typescript",
+    "common-utils-express",
+    "common-utils-express-validator",
+    "common-utils-mongoose",
+    "common-utils-winston"
   ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
+    "doc": "typedoc",
+    "deploy": "gh-pages -d docs",
     "start": "node dist/index.js",
     "pub": "npm run build && npm publish --access public"
   },
@@ -29,6 +50,8 @@
     "@types/express": "^4.17.16",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.11.18",
+    "gh-pages": "^5.0.0",
+    "typedoc": "^0.24.6",
     "typescript": "^4.9.5"
   }
 }

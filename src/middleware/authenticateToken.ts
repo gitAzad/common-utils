@@ -4,6 +4,37 @@ import jwt from 'jsonwebtoken';
 import IRequest from '../interface/IRequest';
 import logger from '../logger';
 
+/**
+ * @description
+ * this function is used to authenticate the token
+ * @example
+ * ```ts
+  import { authenticateToken } from '@mdazad/common-utils';
+  import express from 'express';
+
+  const router = express.Router();
+  //check is user authenticated
+  router.use(authenticateToken("JWT_SECRET", 'users'));
+
+  // all routes here are protected
+
+  ```
+ * 
+ * @example
+ * if you want to use it in a specific route
+ * ```ts
+ * import { authenticateToken } from '@mdazad/common-utils';
+ * import express from 'express';
+ * 
+ * const router = express.Router();
+ * //check is user authenticated
+ * 
+ * router.post("/",authenticateToken("JWT_SECRET", 'users'), async (req, res) => {
+ * // do something
+ * });
+ * ```
+ */
+
 export const authenticateToken = (
   jwtSecret: string,
   userCollectionName = 'users'

@@ -2,6 +2,31 @@ import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import logger from '../logger';
 
+/**
+ * Update a document by id
+ * @param id id of the document
+ * @param model mongoose model
+ * @param data data to update
+ * @param populateFields fields to populate
+ * @returns updated document
+ * @throws mongoose error
+ * @example
+ * ```ts
+ * import { updateById } from '@mdazad/common-utils';
+ * import { User } from '../models/user';
+ *
+ * const updatedUser = await updateById('id', User, { name: 'John Doe' });
+ * ```
+ *
+ * @example
+ * if you want to populate fields in response
+ * ```ts
+ * import { updateById } from '@mdazad/common-utils';
+ * import { User } from '../models/user';
+ *
+ * const updatedUser = await updateById('id', User, { name: 'John Doe' }, ['posts']);
+ * ```
+ */
 export const updateById = async (
   id: string,
   model: mongoose.Model<mongoose.Document>,
@@ -17,6 +42,43 @@ export const updateById = async (
     logger.error(error.message);
   }
 };
+
+/**
+ * Update a document by id and send response
+ * @param req express request
+ * @param res express response
+ * @param model mongoose model
+ * @param data data to update
+ * @param populateFields fields to populate
+ * @returns updated document in response if found
+ * @throws mongoose error
+ * @example
+ * ```ts
+ * import { updateByIdAndSendResponse } from '@mdazad/common-utils';
+ * import express from 'express';
+ * import { User } from '../models/user';
+ *
+ * const router = express.Router();
+ *
+ * router.put("/:id", async (req, res) => {
+ * await updateByIdAndSendResponse(req, res, User, { name: 'John Doe' });
+ * });
+ * ```
+ *
+ * @example
+ * if you want to populate fields in response
+ * ```ts
+ * import { updateByIdAndSendResponse } from '@mdazad/common-utils';
+ * import express from 'express';
+ * import { User } from '../models/user';
+ *
+ * const router = express.Router();
+ *
+ * router.put("/:id", async (req, res) => {
+ * await updateByIdAndSendResponse(req, res, User, { name: 'John Doe' }, ['posts']);
+ * });
+ * ```
+ */
 
 export const updateByIdAndSendResponse = async (
   req: Request,
